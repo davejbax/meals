@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "core-js": "^2.6.5",
+    "fuse.js": "^3.4.5",
     "vue": "^2.6.10",
     "vue-smooth-dnd": "^0.8.0"
   },

@@ -1,7 +1,7 @@
 <template>
   <div class="card card--hoverable food">
     <span class="left">
-      <h5 class="card__title">{{ food.name }}</h5>
+      <h5 class="card__title" v-html="food.highlightedName || food.name"></h5>
       <p>
         Carbs {{ food.nutrition.carbs }}g / Protein {{ food.nutrition.protein }}g / Fat {{ food.nutrition.fat }}g
         ({{ food.servingName }})
@@ -52,5 +52,10 @@ export default {
 .food .energy {
   float: right;
   font-size: 1.5em;
+}
+
+.food mark {
+  color: #e61a49;
+  background: none;
 }
 </style>
