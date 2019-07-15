@@ -11,6 +11,7 @@
             v-bind:meal="meal"
             v-bind:items="getItems(meal.id)"
             @add-item="onAddItem"
+            @change-item-qty="onChangeItemQty"
           />
         </li>
       </ul>
@@ -144,8 +145,27 @@ export default {
           foodQuantity: 1
         });
       }
+    },
+    onChangeItemQty(mealId, foodId, quantity) {
+      const plan = this.plans[0];
 
-      console.log(this.plans);
+      // See whether we can find an item for this food in this meal
+      const itemIndex = plan.items.findIndex(
+        item => foodId === item.foodId && mealId === item.mealId
+      );
+
+      // Stop if we failed to find the item (which shouldn't happen!)
+      if (itemIndex < 0) {
+        return;
+      }
+
+      // If quantity is now 0, remove the item.
+      // Otherwise, change quantity
+      if (quantity === 0) {
+        plan.items.splice(itemIndex, 1);
+      } else {
+        plan.items[itemIndex].foodQuantity = quantity;
+      }
     }
   }
 }

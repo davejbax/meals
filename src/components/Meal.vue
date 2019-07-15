@@ -16,12 +16,12 @@
     <table class="meal">
       <thead>
         <tr>
-          <th></th>
           <th>Food</th>
           <th>Energy (kcal)</th>
           <th>Carbohydrates</th>
           <th>Protein</th>
           <th>Fat</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -29,12 +29,16 @@
           v-for="(item, index) in items"
           v-bind:key="index"
         >
-          <td>{{ item.quantity }}</td>
           <td>{{ item.food.name }}</td>
           <td>{{ item.quantity * item.food.nutrition.energy }}</td>
           <td>{{ item.quantity * item.food.nutrition.carbs }}</td>
           <td>{{ item.quantity * item.food.nutrition.protein }}</td>
           <td>{{ item.quantity * item.food.nutrition.fat }}</td>
+          <td>
+            <button class="round-btn" @click="() => onIncreaseQuantity(item)">&plus;</button>
+            {{ item.quantity }}
+            <button class="round-btn" @click="() => onDecreaseQuantity(item)">&minus;</button>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -73,6 +77,12 @@ export default {
       if (dropResult.addedIndex !== null) {
         this.$emit('add-item', this.meal.id, dropResult.payload);
       }
+    },
+    onIncreaseQuantity: function(item) {
+      this.$emit('change-item-qty', this.meal.id, item.food.id, item.quantity + 1);
+    },
+    onDecreaseQuantity: function(item) {
+      this.$emit('change-item-qty', this.meal.id, item.food.id, item.quantity - 1);
     }
   }
 }
@@ -136,7 +146,18 @@ export default {
   padding: 0 16px;
 }
 
-.ree {
-  background: red;
+.round-btn {
+  background: #CCC;
+  color: #000; 
+  font-weight: 700;
+  font-size: 1em;
+  
+  border: none;
+  outline: none;
+  border-radius: 50%;
+  width: 1.4em;
+  height: 1.4em;
+
+  cursor: pointer;
 }
 </style>
