@@ -3,7 +3,7 @@
     <span class="left">
       <h5 class="card__title">{{ food.name }}</h5>
       <p>
-        Carbs {{ food.nutrition.carbs }} / Protein {{ food.nutrition.protein }} / Fat {{ food.nutrition.fat }}
+        Carbs {{ food.nutrition.carbs }}g / Protein {{ food.nutrition.protein }}g / Fat {{ food.nutrition.fat }}g
         ({{ food.servingName }})
       </p>
     </span>
@@ -26,6 +26,7 @@ export default {
   align-items: center;
 
   user-select: none;
+  font-size: 1rem;
 }
 
 .food .left {
@@ -45,7 +46,7 @@ export default {
 
 .food .card__title {
   font-size: 1.2em;
-  margin-bottom: 8px;
+  margin-bottom: 0.4rem;
 }
 
 .food .energy {

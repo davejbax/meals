@@ -5,11 +5,11 @@
       <ul class="meal-list">
         <li
           v-for="meal in meals"
-          v-bind:key="meal.id"
+          :key="meal.id"
         >
           <Meal
-            v-bind:meal="meal"
-            v-bind:items="getItems(meal.id)"
+            :meal="meal"
+            :items="getItems(meal.id)"
             @add-item="onAddItem"
             @change-item-qty="onChangeItemQty"
           />
@@ -23,17 +23,17 @@
         <Container
           orientation="vertical"
           behaviour="copy"
-          group-name="g"
+          group-name="meal-drop"
           drag-class="dragging"
           :get-child-payload="getFoodPayload"
         >
           <Draggable
             v-for="food in foods"
-            v-bind:key="food.id"
+            :key="food.id"
           >
             <li>
               <Food
-                v-bind:food="food"
+                :food="food"
               />
             </li>
           </Draggable>
@@ -181,6 +181,15 @@ html, body {
   margin: 0;
 }
 
+html {
+  font-size: 20px;
+}
+
+/* Scale down font for smaller devices */
+@media screen and (max-width: 1024px){
+  html { font-size: 15px; }
+}
+
 body {
   background: #e5e5e5;
   font-family: 'Roboto', Arial, sans-serif;
@@ -199,11 +208,11 @@ body {
 }
 
 .card {
-  padding: 16px;
-  border-radius: 3px;
+  padding: 0.8rem;
+  border-radius: 0.15rem;
 
   background: white;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0.05rem 0.15rem rgba(0, 0, 0, 0.5);
 }
 
 .card--hoverable {
@@ -211,8 +220,13 @@ body {
   transition: transform 0.1s ease-in-out;
 }
 
+.card--hoverable:active {
+  transform: translateY(-0.1rem);
+}
+
+/* Use a pseudo-element to animate box-shadow through opacity */
 .card--hoverable:after {
-  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0.15rem 0.25rem rgba(0, 0, 0, 0.3);
   content: '';
   position: absolute;
   top: 0;
@@ -223,12 +237,7 @@ body {
   opacity: 0;
   transition: opacity 0.1s ease-in-out;
 
-  border-radius: 3px;
-}
-
-.card--hoverable:active {
-  /*box-shadow: 0 2px 3px rgba(0, 0, 0, 0.5);*/
-  transform: translateY(-2px);
+  border-radius: 0.15rem;
 }
 
 .card--hoverable:hover:after {
@@ -238,9 +247,9 @@ body {
 .card__title {
   padding: 0;
   margin: 0;
-  margin-bottom: 16px;
+  margin-bottom: 0.8rem;
 
-  font-size: 20px;
+  font-size: 1rem;
   font-weight: 500;
 }
 
@@ -250,11 +259,11 @@ body {
 }
 
 .card__subtitle.inline {
-  margin-left: 8px;
+  margin-left: 0.4rem;
 }
 
 .dragging .card {
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 0.15rem 0.4rem rgba(0, 0, 0, 0.7);
 }
 
 .smooth-dnd-ghost.animated {
@@ -281,11 +290,11 @@ body {
 .meal-list {
   list-style: none;
   padding: 0;
-  margin: 16px;
+  margin: 0.8rem;
 }
 
 .meal-list li {
-  margin-bottom: 16px;
+  margin-bottom: 0.8rem;
 }
 
 .meal-list li:last-child {
@@ -295,7 +304,7 @@ body {
 .food-list {
   list-style: none;
   padding: 0;
-  margin: 16px 0;
-  margin-right: 16px;
+  margin: 0.8rem 0;
+  margin-right: 0.8rem;
 }
 </style>

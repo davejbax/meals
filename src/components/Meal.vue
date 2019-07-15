@@ -1,9 +1,11 @@
 <template>
-  <div :class="'meal-container card ' + (draggingOver ? 'dragging-over' : '')">
+  <div
+    :class="'meal-container card ' + (draggingOver ? 'dragging-over' : '')"
+  >
     <Container
       class="drop-zone"
       behaviour="drop-zone"
-      group-name="g"
+      group-name="meal-drop"
       @drop="onDrop"
       @drag-enter="onDragEnter"
       @drag-leave="onDragLeave"
@@ -18,16 +20,16 @@
         <tr>
           <th>Food</th>
           <th>Energy (kcal)</th>
-          <th>Carbohydrates</th>
-          <th>Protein</th>
-          <th>Fat</th>
+          <th>Carbohydrates (g)</th>
+          <th>Protein (g)</th>
+          <th>Fat (g)</th>
           <th></th>
         </tr>
       </thead>
       <tbody>
         <tr
           v-for="(item, index) in items"
-          v-bind:key="index"
+          :key="index"
         >
           <td>{{ item.food.name }}</td>
           <td>{{ item.quantity * item.food.nutrition.energy }}</td>
@@ -93,14 +95,6 @@ export default {
   position: relative;
 }
 
-/* Ensure hovering passes to the drop zone element when we're dragging
- * something. If not, the drop zone won't register as being 'dragged over',
- * and we won't be able to drop our object
- */
-.smooth-dnd-no-user-select .meal-container .drop-zone {
-  pointer-events: all;
-}
-
 .meal-container .drop-zone {
   position: absolute;
   top: 0;
@@ -111,10 +105,25 @@ export default {
   pointer-events: none;
 }
 
+/* Ensure hovering passes to the drop zone element when we're dragging
+ * something. If not, the drop zone won't register as being 'dragged over',
+ * and we won't be able to drop our object
+ */
+.smooth-dnd-no-user-select .meal-container .drop-zone {
+  pointer-events: all;
+}
+
+/* Useful styling (dashed border) when the meal is having a food dragged
+ * over it
+ */
 .dragging-over .meal {
   outline: 2px dashed #CCC;
 }
 
+/* Prevent smooth-dnd from animating the .meal element:
+ * if it does, it tries to animate the outline (which looks bad!)
+ * [.animated is added by smooth-dnd]
+ */
 .meal.animated {
   transition-duration: unset!important;
 }
@@ -132,9 +141,9 @@ export default {
 }
 
 .meal tr {
-  height: 48px;
+  height: 2.5em;
   
-  border-bottom: 1px solid #DDD;
+  border-bottom: 0.05rem solid #DDD;
 }
 
 .meal tbody tr:hover {
@@ -143,7 +152,7 @@ export default {
 
 .meal td,
 .meal th {
-  padding: 0 16px;
+  padding: 0 0.8rem;
 }
 
 .round-btn {
