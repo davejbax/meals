@@ -1,8 +1,17 @@
 <template>
-  <div class="card">
+  <div :class="'meal-container card ' + (draggingOver ? 'dragging-over' : '')">
+    <Container
+      class="drop-zone"
+      behaviour="drop-zone"
+      group-name="g"
+      @drop="onDrop"
+      @drag-enter="onDragEnter"
+      @drag-leave="onDragLeave"
+    >
+    </Container>
     <div>
       <h5 class="card__title inline">{{ meal.name }}</h5>
-      <span class="card__subtitle inline">500</span>
+      <span class="card__subtitle inline">{{ totalEnergy }}</span>
     </div>
     <table class="meal">
       <thead>
@@ -33,13 +42,73 @@
 </template>
 
 <script>
+import { Container } from 'vue-smooth-dnd';
+
 export default {
   name: 'Meal',
-  props: ['meal', 'items']
+  props: ['meal', 'items'],
+  components: {
+    Container
+  },
+  data() {
+    return {
+      draggingOver: false
+    }
+  },
+  computed: {
+    totalEnergy() {
+      return this.items.reduce((acc, cur) => acc + cur.quantity * cur.food.nutrition.energy, 0);
+    }
+  },
+  methods: {
+    onDragEnter: function() {
+      this.draggingOver = true;
+    },
+    onDragLeave: function() {
+      this.draggingOver = false;
+    },
+    onDrop: function(dropResult) {
+      this.draggingOver = false;
+      
+      if (dropResult.addedIndex !== null) {
+        this.$emit('add-item', this.meal.id, dropResult.payload);
+      }
+    }
+  }
 }
 </script>
 
 <style>
+.meal-container {
+  position: relative;
+}
+
+/* Ensure hovering passes to the drop zone element when we're dragging
+ * something. If not, the drop zone won't register as being 'dragged over',
+ * and we won't be able to drop our object
+ */
+.smooth-dnd-no-user-select .meal-container .drop-zone {
+  pointer-events: all;
+}
+
+.meal-container .drop-zone {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  pointer-events: none;
+}
+
+.dragging-over .meal {
+  outline: 2px dashed #CCC;
+}
+
+.meal.animated {
+  transition-duration: unset!important;
+}
+
 .meal {
   width: 100%;
 
@@ -65,5 +134,9 @@ export default {
 .meal td,
 .meal th {
   padding: 0 16px;
+}
+
+.ree {
+  background: red;
 }
 </style>
