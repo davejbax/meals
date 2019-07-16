@@ -21,10 +21,13 @@
       <FoodList :foods="foods" />
     </aside>
 
+    <FloatingActionButton @click="onOpenAddFood">&plus;</FloatingActionButton>
+
   </div>
 </template>
 
 <script>
+import FloatingActionButton from './components/FloatingActionButton.vue';
 import FoodList from './components/FoodList.vue';
 import Meal from './components/Meal.vue'
 
@@ -32,7 +35,8 @@ export default {
   name: 'app',
   components: {
     Meal,
-    FoodList
+    FoodList,
+    FloatingActionButton
   },
   data() {
     return {
@@ -139,6 +143,9 @@ export default {
       } else {
         plan.items[itemIndex].foodQuantity = quantity;
       }
+    },
+    onOpenAddFood() {
+      // TODO
     }
   }
 }
