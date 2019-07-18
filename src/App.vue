@@ -21,12 +21,15 @@
       <FoodList :foods="foods" />
     </aside>
 
-    <FloatingActionButton @click="onOpenAddFood">&plus;</FloatingActionButton>
+    <FloatingActionButton @click="onOpenAddFoodModal">&plus;</FloatingActionButton>
+
+    <AddFoodModal :open="addFoodModalOpen" @request-close="onCloseAddFoodModal" />
 
   </div>
 </template>
 
 <script>
+import AddFoodModal from './components/AddFoodModal.vue';
 import FloatingActionButton from './components/FloatingActionButton.vue';
 import FoodList from './components/FoodList.vue';
 import Meal from './components/Meal.vue'
@@ -35,6 +38,7 @@ export default {
   name: 'app',
   components: {
     Meal,
+    AddFoodModal,
     FoodList,
     FloatingActionButton
   },
@@ -81,7 +85,9 @@ export default {
             }
           ]
         }
-      ]
+      ],
+
+      addFoodModalOpen: false
     }
   },
   methods: {
@@ -144,8 +150,11 @@ export default {
         plan.items[itemIndex].foodQuantity = quantity;
       }
     },
-    onOpenAddFood() {
-      // TODO
+    onOpenAddFoodModal() {
+      this.addFoodModalOpen = true;
+    },
+    onCloseAddFoodModal() {
+      this.addFoodModalOpen = false;
     }
   }
 }
