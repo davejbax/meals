@@ -9,7 +9,7 @@
       name="add-food"
       autocomplete="off"
       method="dialog"
-      @submit="onAddFood"
+      @submit="onSubmit"
     >
       <FormField
         name="food-name"
@@ -97,8 +97,8 @@ export default {
     Modal
   },
   methods: {
-    onAddFood() {
-      //this.$emit('');
+    onSubmit() {
+      this.$emit('submit', this.food);
     }
   },
   data() {

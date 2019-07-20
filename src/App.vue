@@ -23,7 +23,11 @@
 
     <FloatingActionButton @click="onOpenAddFoodModal">&plus;</FloatingActionButton>
 
-    <AddFoodModal :open="addFoodModalOpen" @request-close="onCloseAddFoodModal" />
+    <AddFoodModal
+      :open="addFoodModalOpen"
+      @request-close="onCloseAddFoodModal"
+      @submit="onSubmitAddFoodModal"
+    />
 
   </div>
 </template>
@@ -155,6 +159,16 @@ export default {
     },
     onCloseAddFoodModal() {
       this.addFoodModalOpen = false;
+    },
+    onSubmitAddFoodModal(food) {
+      this.addFoodModalOpen = false;
+      
+      // Create new ID of max ID + 1
+      const newId = this.foods.reduce((acc, cur) => cur > acc ? cur : acc) + 1;
+      food.id = newId;
+
+      // Add to foods list
+      this.foods.push(food);
     }
   }
 }
