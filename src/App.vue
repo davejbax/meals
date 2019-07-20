@@ -184,6 +184,10 @@ body {
   font-family: 'Roboto', Arial, sans-serif;
 }
 
+button, input {
+  font-family: 'Roboto', Arial, sans-serif;
+}
+
 /**
  * Reusable styles
  */
@@ -245,6 +249,69 @@ body {
 
 .card__subtitle.inline {
   margin-left: 0.4rem;
+}
+
+.btn {
+  position: relative;
+  overflow: hidden;
+
+  background: #0097A7;
+  color: white;
+
+  border: none;
+  border-radius: 3px;
+  padding: 0.8rem 1rem;
+
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: uppercase;
+
+  cursor: pointer;
+
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+
+  transition: background 0.1s ease-in-out;
+}
+
+.btn:hover {
+  background: #14a7b7
+}
+
+.btn:focus {
+  background: #47bdca;
+  outline: none;
+}
+
+/* Ripple effect */
+.btn:after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  content: '';
+  pointer-events: none;
+
+  background-image: radial-gradient(circle, #000 10%, transparent 10.1%);
+  background-repeat: no-repeat;
+  background-position: 50%;
+
+  transform: scale(10);
+  opacity: 0;
+  transition: transform 0.5s, opacity 1s;
+}
+
+.btn:active:after {
+  transform: scale(0);
+  opacity: 0.3;
+  transition: 0s;
+}
+
+.btn--secondary {
+  background: none;
+  color: #666;
+
+  box-shadow: inset 0 0 1px #ccc;
 }
 
 /**

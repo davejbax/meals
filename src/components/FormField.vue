@@ -6,12 +6,42 @@
     <label :for="name">{{ placeholder }}</label>
     <span class="form-field__content">
       <input
-        type="text"
+        v-if="'number' === type"
+
+        type="number"
         ref="input"
+
         v-model="value"
         :name="name"
+        :required="required"
         @blur="() => this.focused = false"
         @focus="() => this.focused = true"
+        @input="(e) => this.$emit('input', e)"
+      />
+      <textarea
+        v-else-if="'multiline' === type"
+
+        ref="input"
+
+        v-model="value"
+        :name="name"
+        :required="required"
+        @blur="() => this.focused = false"
+        @focus="() => this.focused = true"
+        @input="(e) => this.$emit('input', e)"
+      />
+      <input
+        v-else
+
+        type="text"
+        ref="input"
+        
+        v-model="value"
+        :name="name"
+        :required="required"
+        @blur="() => this.focused = false"
+        @focus="() => this.focused = true"
+        @input="(e) => this.$emit('input', e)"
       />
     </span>
   </div>
@@ -20,7 +50,18 @@
 <script>
 export default {
   name: 'FormField',
-  props: ['name', 'placeholder'],
+  props: {
+    name: String,
+    placeholder: String,
+    type: {
+      type: String,
+      default: 'text'
+    },
+    required: {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
     return {
       focused: false,
@@ -70,12 +111,12 @@ export default {
 
 .form-field > label {
   position: absolute;
-  left: 0.8rem;
+  left: 0.6rem;
   top: 50%;
 
   margin-top: -0.5em;
   line-height: 1em;
-  font-size: 1em;
+  font-size: 0.9rem;
 
   user-select: none;
   pointer-events: none;
@@ -106,16 +147,40 @@ export default {
   padding-top: 1em;
 }
 
-.form-field__content > input {
+.form-field__content > input,
+.form-field__content > textarea {
   border: none;
   background: none;
 
-  padding: 0.8rem;
+  padding: 0.6rem;
   width: 100%;
   box-sizing: border-box;
+
+  font-size: 0.9rem;
 }
 
-.form-field__content > input:focus {
+.form-field__content > textarea {
+  /* Padding on sides for the sake of not overflowing,
+   * and bottom so the grip to resize the textarea is
+   * in the right place.
+   */
+  padding: 0 0.6em;
+  padding-bottom: 0.6em;
+
+  /* Margin on the top, so we don't cover the label */
+  margin-top: 0.6em;
+
+  /* Prevent untracked space on bottom of textarea from
+   * appearing, and only allow resizing vertically
+   */
+  vertical-align: top;
+  resize: vertical;
+
+  font-family: Roboto, Arial, sans-serif;
+}
+
+.form-field__content > input:focus,
+.form-field__content > textarea:focus {
   outline: none;
 }
 </style>
