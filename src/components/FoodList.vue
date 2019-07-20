@@ -75,7 +75,7 @@ export default {
   },
   methods: {
     getFoodPayload(index) {
-      return this.foods[index].id;
+      return this.filteredFoods[index].id;
     },
     onBodyKeyDown(event) {
       if (document.activeElement === document.body
